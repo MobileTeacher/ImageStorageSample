@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ImageStorageSample</string>
+    <string name="action_settings">Settings</string>
+    <string name="select_activity_label">Selecionar Imagem</string>
+    <string name="new_message">Olá, tivemos sucesso!</string>
+</resources>
