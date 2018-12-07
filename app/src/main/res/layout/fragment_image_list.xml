@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
+    tools:context=".ImageListFragment"
     tools:showIn="@layout/activity_main">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_OLD"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="8dp"

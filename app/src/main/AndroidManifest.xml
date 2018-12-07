@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.mobileteacher.imagestoragesample">
 
-    <!--Solicita permissão para acessar internet-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Solicita permissão para acessar internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,10 @@
             android:name=".MainActivity"
             android:label="@string/select_activity_label"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".FragmentExampleActivity"></activity>
+        <activity android:name=".ViewPagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
