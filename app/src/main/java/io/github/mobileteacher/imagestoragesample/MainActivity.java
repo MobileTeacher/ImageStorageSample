@@ -34,9 +34,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, OnPositiveButtonClickListener{
 
-    final int CAMERA_REQUEST_CODE = 71;
+    static final int CAMERA_REQUEST_CODE = 71;
 
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("imagens");
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("imagens");
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageFragment imageFragment;
 
     DrawerLayout drawerLayout;
+
+    Bitmap currentImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +97,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+
+        outState.putInt("counter", 9);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,34 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
-            Bitmap thumbnail = data.getParcelableExtra("data");
+            currentImage = data.getParcelableExtra("data");
 
-            //storageReference
-            //storageReference.child("nomeaqui.jpg").put
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] byteArray = baos.toByteArray();
-
-            // TODO: ask for image name
-            final String imageName = "nomeaqui.jpg";
-
-            UploadTask uploadTask = storageReference.child(imageName).putBytes(byteArray);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Toast.makeText(MainActivity.this, "XABU", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    databaseReference.push().setValue(new Photo(imageName));
-                }
-            });
-
-
-            //data.getDa
+            ImageNameDialogFragment dialogFragment = new ImageNameDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "ImageNameDialogFragment");
         }
 
     }
@@ -194,5 +179,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.container, currentFragment);
         transaction.commit();
         return true;
+    }
+
+    @Override
+    public void onPositiveButtonClick(final String imageName) {
+        // recebi o nome da imagem
+
+        // posso salvar no firebase
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        currentImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] byteArray = baos.toByteArray();
+
+        UploadTask uploadTask = storageReference.child(imageName).putBytes(byteArray);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Toast.makeText(MainActivity.this, "XABU", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                databaseReference.push().setValue(new Photo(imageName));
+            }
+        });
     }
 }

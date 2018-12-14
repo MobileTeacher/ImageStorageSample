@@ -1,11 +1,14 @@
 package io.github.mobileteacher.imagestoragesample;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -30,6 +33,16 @@ public class TextFragment extends Fragment {
             TextView textView = root.findViewById(R.id.message_text);
             textView.setText(args.getString("text", "XABU"));
         }
+        Button button = root.findViewById(R.id.call_camera);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mostrar Dialog
+                TestDialogFragment dialogFragment = new TestDialogFragment();
+                dialogFragment.show(getFragmentManager(), "TestDialogFragment");
+            }
+        });
+
         return root;
     }
 

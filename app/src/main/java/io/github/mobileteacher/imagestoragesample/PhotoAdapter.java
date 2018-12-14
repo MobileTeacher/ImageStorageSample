@@ -65,6 +65,7 @@ public class PhotoAdapter extends RecyclerView.Adapter
         GlideApp.with(photoViewHolder.photo)
                 .load(storageReference.child(photo.getName()))
                 .into(photoViewHolder.photo);
+
     }
 
     @Override

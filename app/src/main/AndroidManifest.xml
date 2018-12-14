@@ -17,14 +17,15 @@
             android:label="@string/select_activity_label"
             android:theme="@style/AppTheme.NoActionBar">
 
-        </activity>
-        <activity android:name=".FragmentExampleActivity"></activity>
-        <activity android:name=".ViewPagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".FragmentExampleActivity"></activity>
+        <activity android:name=".ViewPagerActivity">
         </activity>
     </application>
 
